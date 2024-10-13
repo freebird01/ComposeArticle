@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,13 +32,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeArticleTheme {
-                Surface {
-                    ComposeArticle(
-                        headingText = stringResource(R.string.tutorial_heading),
-                        para1Text = stringResource(R.string.tutorial_para_1),
-                        para2Text = stringResource(R.string.tutorial_para_2),
-                        modifier = Modifier.padding(0.dp)
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    ComposeArticleApp()
                 }
             }
         }
@@ -44,20 +44,30 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ComposeArticle(
+fun ComposeArticleApp() {
+    ArticleCard(
+        headingText = stringResource(R.string.tutorial_heading),
+        para1Text = stringResource(R.string.tutorial_para_1),
+        para2Text = stringResource(R.string.tutorial_para_2),
+        imagePainter = painterResource(R.drawable.bg_compose_background),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+private fun ArticleCard(
     headingText: String,
     para1Text: String,
     para2Text: String,
+    imagePainter: Painter,
     modifier: Modifier = Modifier
 ) {
-    val image = painterResource(R.drawable.bg_compose_background)
     Column(
-        verticalArrangement = Arrangement.Center,
         modifier = modifier,
     ) {
         Image(
-            image,
-            contentDescription = "Compose background",
+            imagePainter,
+            contentDescription = null,
             modifier = modifier.fillMaxWidth()
         )
         Text(
@@ -82,10 +92,6 @@ fun ComposeArticle(
 @Composable
 fun ComposeArticlePreview() {
     ComposeArticleTheme {
-        ComposeArticle(
-            headingText = stringResource(R.string.tutorial_heading),
-            para1Text = stringResource(R.string.tutorial_para_1),
-            para2Text = stringResource(R.string.tutorial_para_2)
-        )
+        ComposeArticleApp()
     }
 }
